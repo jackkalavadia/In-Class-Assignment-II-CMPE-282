@@ -2,7 +2,7 @@ import nltk
 nltk.download('vader_lexicon')
 from nltk.sentiment import SentimentIntensityAnalyzer
 
-def sentiment_analysis(text):
+def analyze_sentiment(text):
     sentiment = SentimentIntensityAnalyzer().polarity_scores(text)
     if sentiment['compound'] >= 0.05:
         return 'Positive'
@@ -11,11 +11,26 @@ def sentiment_analysis(text):
     else:
         return 'Neutral'
 
-# Test cases
-test_texts = [
-    'This is an amazing product!',
-    'I hate this product',
-    'This product is just okay',
+def get_sentiment_scores(text):
+    sentiment = SentimentIntensityAnalyzer().polarity_scores(text)
+    return sentiment
+
+def analyze_multiple_sentiments(text_list):
+    sentiment_list = []
+    for text in text_list:
+        sentiment = analyze_sentiment(text)
+        sentiment_list.append((text, sentiment))
+    return sentiment_list
+
+text = input("Enter a text string: ")
+sentiment = analyze_sentiment(text)
+print("Sentiment: ", sentiment)
+
+text_list = [
+    "I love this product!",
+    "This product is okay, but nothing special.",
+    "I hate this product."
 ]
-for text in test_texts:
-    print(f'{text}: {sentiment_analysis(text)}')
+
+multiple_sentiments = analyze_multiple_sentiments(text_list)
+print("Sentiments: ", multiple_sentiments)
